@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 require('dotenv').config();
 
 const express = require('express');
@@ -13,18 +12,10 @@ const predictionRoutes = require('./routes/predictionRoutes');
 const app = express();
 
 /* =========================
-   ✅ CORS (FINAL WORKING)
+   ✅ SIMPLE OPEN CORS
 ========================= */
 
-app.use(cors({
-  origin: [
-    'https://automated-chest-disease-detection.netlify.app',
-    'http://localhost:5173'
-  ],
-  credentials: true,
-}));
-
-app.options('*', cors());
+app.use(cors());   // <-- bas ye hi chahiye
 
 /* ========================= */
 
