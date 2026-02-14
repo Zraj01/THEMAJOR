@@ -4,12 +4,12 @@ const { runInference } = require("../utils/pythonService");
 
 const createPrediction = async (req, res) => {
   try {
-    // 1️⃣ Check image
+    
     if (!req.file) {
       return res.status(400).json({ message: "Please upload an image" });
     }
 
-    // 2️⃣ Validate disease type (user selection)
+    
     const diseaseType = (req.body.diseaseType || "").toUpperCase();
     if (!["PNEUMONIA", "TB"].includes(diseaseType)) {
       return res
@@ -17,20 +17,13 @@ const createPrediction = async (req, res) => {
         .json({ message: "diseaseType must be PNEUMONIA or TB" });
     }
 
-    // 3️⃣ Image path from Multer
+   
     const imagePath = req.file.path;
 
-    // 4️⃣ Call Python ML model
+    
     const inference = await runInference(diseaseType, imagePath);
 
-    /**
-     * Example Python response:
-     * {
-     *   result: "PNEUMONIA" | "TUBERCULOSIS" | "NORMAL",
-     *   confidence: "64.89%"
-     * }
-     */
-
+   
     
 
    
@@ -59,7 +52,7 @@ const createPrediction = async (req, res) => {
       result = "Negative";
     }
 
-    // 6️⃣ Save prediction to MongoDB
+    
     const prediction = await Prediction.create({
       userId: req.user._id,
       diseaseType,
@@ -68,7 +61,7 @@ const createPrediction = async (req, res) => {
       confidence,
     });
 
-    // 7️⃣ Send response
+    
     res.status(201).json({
       message: "Analysis complete",
       prediction: {
